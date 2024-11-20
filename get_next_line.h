@@ -6,7 +6,7 @@
 /*   By: mchetoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:42:58 by mchetoui          #+#    #+#             */
-/*   Updated: 2024/11/20 18:35:34 by mchetoui         ###   ########.fr       */
+/*   Updated: 2024/11/20 20:22:47 by mchetoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,5 @@ void	add_node(t_list **head, char c);
 char	*make_str(t_list *head, int start, int size);
 void	free_list(t_list **lst);
 int		listchr_len(t_list *head, int start);
-void print_list(t_list *head);
 
 #endif
