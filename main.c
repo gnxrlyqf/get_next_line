@@ -13,6 +13,4 @@ int main()
 	printf("%s", get_next_line(o));
 	printf("%s", get_next_line(o));
 	printf("%s", get_next_line(o));
-	printf("%s", get_next_line(o));
-	printf("%s", get_next_line(o));
 }

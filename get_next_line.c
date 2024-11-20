@@ -6,31 +6,51 @@
 /*   By: mchetoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 23:25:40 by mchetoui          #+#    #+#             */
-/*   Updated: 2024/11/19 20:47:33 by mchetoui         ###   ########.fr       */
+/*   Updated: 2024/11/20 20:17:48 by mchetoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char	*ft_strchr(char *str, char c)
+{
+	while (*str && *str != c)
+		str++;
+	if (!*str && c)
+		return (NULL);
+	return (str);
+}
+
+void populate_list(t_list **head, char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+		add_node(head, str[i++]);
+}
+
 char *get_next_line(int fd)
 {
-	static char str[BUFFER_SIZE];
+	char str[BUFFER_SIZE];
 	int size;
-	static unsigned int i;
-	int len;
+	static int cursor;
+	static t_list *head;
 	char *out;
 
-	if (!i)
+	size = read(fd, str, BUFFER_SIZE);
+	str[size] = 0;
+	populate_list(&head, str);
+	while (size > 0)
 	{
 		size = read(fd, str, BUFFER_SIZE);
-		if (size < 0)
-			return (NULL);
 		str[size] = 0;
+		populate_list(&head, str);
 	}
-	len = 0;
-	while (str[i + len] && str[i + len] != '\n')
-		len++;
-	out = ft_substr(str, i, ++len);
-	i += len;
+	size = listchr_len(head, cursor);
+	out = make_str(head, cursor, size);
+	if (!out)
+		free_list(&head);
+	cursor += size;
 	return (out);
 }

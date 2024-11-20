@@ -6,52 +6,91 @@
 /*   By: mchetoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 20:18:46 by mchetoui          #+#    #+#             */
-/*   Updated: 2024/11/19 20:20:46 by mchetoui         ###   ########.fr       */
+/*   Updated: 2024/11/20 20:19:15 by mchetoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strdup(char *src)
+void	add_node(t_list **head, char c)
 {
-	int		i;
-	char	*new;
+	t_list	*curr;
+	static t_list	*new;
 
-	new = malloc((ft_strlen(src) + 1) * sizeof(char));
-	if (!new || !src)
-		return (NULL);
-	i = -1;
-	while (src[++i])
-		new[i] = src[i];
-	new[i] = '\0';
-	return (new);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	size_t	remlen;
-	char	*new;
-
-	if (!len || !ft_strlen(s) || (int)start > ft_strlen(s) - 1)
-		return (ft_strdup(""));
-	remlen = (size_t)ft_strlen(s) - start;
-	remlen = (remlen > len) * len + (remlen <= len) * remlen;
-	new = malloc(remlen + 1);
+	new = malloc(sizeof(t_list));
 	if (!new)
-		return (NULL);
-	new[remlen] = 0;
-	len = -1;
-	while (++len < remlen)
-		*(new++) = *(s++ + start);
-	return (new - len);
+		return ; 
+	new->c = c;
+	new->next = NULL;
+	if (!*head)
+	{
+		*head = new;
+		return ;
+	}
+	curr = *head;
+	while (curr->next)
+		curr = curr->next;
+	curr->next = new;
 }
 
-int	ft_strlen(const char *str)
+void	free_list(t_list **head)
 {
-	int	len;
+	t_list	*current;
+	t_list	*temp;
 
+	if (!head)
+		return ;
+	current = *head;
+	while (current)
+	{
+		temp = current;
+		current = current->next;
+		free(temp);
+	}
+	*head = NULL;
+}
+
+char *make_str(t_list *head, int start, int size)
+{
+	char *new;
+	t_list *curr;
+	int i;
+
+	new = malloc(size + 1);
+	if (!new || !head || !size)
+		return (NULL);
+	new[size] = 0;
+	i = 0;
+	curr = head;
+	while (curr && size)
+	{
+		if (i++ >= start)
+		{
+			*(new++) = curr->c;
+			size--;
+		}
+		curr = curr->next;
+	}
+	return (new - (i - start));
+}
+
+int listchr_len(t_list *head, int start)
+{
+	int len;
+	int i;
+	t_list *curr;
+
+	curr = head;
+	i = 0;
 	len = 0;
-	while (*(str++))
+	while (curr && i++ < start)
+		curr = curr->next;
+	while (curr && curr->c != '\n')
+	{
+		len++;
+		curr = curr->next;
+	}
+	if (curr->next)
 		len++;
 	return (len);
 }
