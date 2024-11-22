@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchetoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:42:58 by mchetoui          #+#    #+#             */
-/*   Updated: 2024/11/22 15:03:59 by mchetoui         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:09:00 by mchetoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -27,11 +27,21 @@ typedef struct	s_list
 	struct s_list	*next;
 }				t_list;
 
-char	*get_next_line(int fd);
-int		contains_nl(char *str);
-t_list	*add_node(t_list **head, char c);
-char	*make_str(t_list **head, int size);
-void	free_list(t_list **lst);
-int		listchr_len(t_list *head);
+typedef struct	s_list_fd
+{
+	int					fd;
+	t_list				*head;
+	struct s_list_fd	*next;
+}				t_list_fd;
+
+int			contains_nl(char *str);
+t_list		*populate_list(t_list **head, char *str);
+t_list_fd	*add_node_fd(t_list_fd **head, int fd);
+t_list		**get_list(t_list_fd **lists, int fd);
+char		*get_next_line(int fd);
+t_list		*add_node(t_list **head, char c);
+void		free_list(t_list **head);
+char		*make_str(t_list **head, int size);
+int			listchr_len(t_list *head);
 
 #endif
