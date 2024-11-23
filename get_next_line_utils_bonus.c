@@ -6,7 +6,7 @@
 /*   By: mchetoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 20:18:46 by mchetoui          #+#    #+#             */
-/*   Updated: 2024/11/22 15:06:16 by mchetoui         ###   ########.fr       */
+/*   Updated: 2024/11/23 03:46:41 by mchetoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*make_str(t_list **head, int size)
 
 	new = malloc(sizeof(char) * (size + 1));
 	if (!new || !*head || !size)
-		return (NULL);
+		return (free(new), NULL);
 	new[size] = 0;
 	i = size;
 	curr = *head;

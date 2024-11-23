@@ -6,7 +6,7 @@
 /*   By: mchetoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:42:58 by mchetoui          #+#    #+#             */
-/*   Updated: 2024/11/22 15:09:00 by mchetoui         ###   ########.fr       */
+/*   Updated: 2024/11/23 17:43:07 by mchetoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-typedef struct	s_list
+typedef struct s_list
 {
 	char			c;
 	struct s_list	*next;
 }				t_list;
 
-typedef struct	s_list_fd
+typedef struct s_list_fd
 {
 	int					fd;
 	t_list				*head;
