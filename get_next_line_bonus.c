@@ -6,7 +6,7 @@
 /*   By: mchetoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 23:25:40 by mchetoui          #+#    #+#             */
-/*   Updated: 2024/11/23 04:00:34 by mchetoui         ###   ########.fr       */
+/*   Updated: 2024/11/24 18:57:47 by mchetoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,11 @@ int	contains_nl(char *str)
 	return (0);
 }
 
-t_list	*populate_list(t_list **head, char *str)
+void populate_list(t_list **head, char *str)
 {
 	while (*str)
 		if (!add_node(head, *(str++)))
-			return (NULL);
-	return (*head);
+			free_list(head);
 }
 
 t_list_fd	*add_node_fd(t_list_fd **head, int fd)
@@ -70,11 +69,12 @@ t_list	**get_list(t_list_fd **lists, int fd)
 char	*get_next_line(int fd)
 {
 	char				*str;
-	int					size;
+	ssize_t				size;
 	static t_list_fd	*lists;
 	t_list				**head;
 
-	str = malloc(sizeof(char) * (size_t)BUFFER_SIZE + 1);
+	size = BUFFER_SIZE - (BUFFER_SIZE - UINT_MAX) * (BUFFER_SIZE >= UINT_MAX);
+	str = malloc((size_t)size + 1);
 	if (fd < 0 || BUFFER_SIZE <= 0 || !str)
 		return (free(str), NULL);
 	head = get_list(&lists, fd);
@@ -83,12 +83,8 @@ char	*get_next_line(int fd)
 		size = read(fd, str, BUFFER_SIZE);
 		if (size < 0)
 			return (free(str), NULL);
-		str[size] = '\0';
-		if (!populate_list(head, str))
-		{
-			free_list(head);
-			break ;
-		}
+		str[size] = 0;
+		populate_list(head, str);
 		if (contains_nl(str) || size <= 0)
 			break ;
 	}

@@ -6,7 +6,7 @@
 /*   By: mchetoui <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:42:58 by mchetoui          #+#    #+#             */
-/*   Updated: 2024/11/23 17:43:07 by mchetoui         ###   ########.fr       */
+/*   Updated: 2024/11/24 18:58:26 by mchetoui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <limits.h>
 
 typedef struct s_list
 {
@@ -35,7 +36,7 @@ typedef struct s_list_fd
 }				t_list_fd;
 
 int			contains_nl(char *str);
-t_list		*populate_list(t_list **head, char *str);
+void		populate_list(t_list **head, char *str);
 t_list_fd	*add_node_fd(t_list_fd **head, int fd);
 t_list		**get_list(t_list_fd **lists, int fd);
 char		*get_next_line(int fd);
